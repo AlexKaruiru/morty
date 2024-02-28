@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { MyTabs } from '@/components/Tabs';
 import Link from 'next/link';
+
+import { MyTabs } from '@/components/Tabs';
 
 interface Location {
   id: number;
@@ -115,19 +116,20 @@ const Resident: React.FC<ResidentProps> = ({ residentUrl }) => {
       try {
         const response = await fetch(residentUrl);
         const data = await response.json();
-        setResident(data);
+        const residentId = data.id;
+        setResident({ ...data, id: residentId }); 
       } catch (error) {
         console.error('Error fetching resident:', error);
       }
     };
-
+  
     fetchResident();
   }, [residentUrl]);
 
   if (!resident) return null;
 
   return (
-    <Link href={`/resident-details/${resident.id}`}>
+    <Link href="/resident/[id]" as={`/resident/${resident.id}`}>
       <div className="cursor-pointer">
         <li className="flex items-center space-x-4">
           <img src={resident.image} alt={resident.name} className="h-10 w-10 rounded-full" />
