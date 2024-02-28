@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MyTabs } from '@/components/Tabs';
+import Link from 'next/link';
 
 interface Location {
   id: number;
@@ -12,6 +13,7 @@ interface Resident {
   id: number;
   name: string;
   status: string;
+  image: string;
 }
 
 const Home: React.FC = () => {
@@ -42,14 +44,14 @@ const Home: React.FC = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-center my-8">Rick and Morty Locations</h1>
+      <h1 className="text-3xl font-bold text-center my-8">Rick and Morty</h1>
       <MyTabs />
       <input
         type="text"
         placeholder="Search locations..."
         value={searchQuery}
         onChange={handleSearchInputChange}
-        className="w-full p-2 border rounded-md mb-4"
+        className="w-full p-2 border rounded-md mb-4 mt-4"
       />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {filteredLocations.map(location => (
@@ -65,8 +67,13 @@ interface LocationCardProps {
 }
 
 const LocationCard: React.FC<LocationCardProps> = ({ location }) => {
-  // Slice the first 5 residents
+  const [showAllResidents, setShowAllResidents] = useState<boolean>(false);
   const firstFiveResidents = location.residents.slice(0, 5);
+  const remainingResidents = location.residents.slice(5);
+
+  const toggleShowAllResidents = () => {
+    setShowAllResidents(!showAllResidents);
+  };
 
   return (
     <div className="bg-white rounded-md shadow-md hover:shadow-lg transition duration-300">
@@ -75,14 +82,26 @@ const LocationCard: React.FC<LocationCardProps> = ({ location }) => {
         <p className="text-gray-600">Type: {location.type}</p>
         <h3 className="font-bold mt-2">Residents:</h3>
         <ul>
-          {firstFiveResidents.map(residentUrl => (
-            <Resident key={residentUrl} residentUrl={residentUrl} />
-          ))}
+          {showAllResidents ? (
+            location.residents.map(residentUrl => (
+              <Resident key={residentUrl} residentUrl={residentUrl} />
+            ))
+          ) : (
+            firstFiveResidents.map(residentUrl => (
+              <Resident key={residentUrl} residentUrl={residentUrl} />
+            ))
+          )}
         </ul>
+        {location.residents.length > 5 && (
+          <button onClick={toggleShowAllResidents} className="text-blue-500 mt-2 focus:outline-none">
+            {showAllResidents ? 'View Less' : 'View More'}
+          </button>
+        )}
       </div>
     </div>
   );
 };
+
 
 interface ResidentProps {
   residentUrl: string;
@@ -108,10 +127,19 @@ const Resident: React.FC<ResidentProps> = ({ residentUrl }) => {
   if (!resident) return null;
 
   return (
-    <li>
-      {resident.name} - Status: {resident.status}
-    </li>
+    <Link href={`/resident-details/${resident.id}`}>
+      <div className="cursor-pointer">
+        <li className="flex items-center space-x-4">
+          <img src={resident.image} alt={resident.name} className="h-10 w-10 rounded-full" />
+          <div>
+            <p className="text-lg font-medium">{resident.name}</p>
+            <p className="text-gray-500"> status: {resident.status}</p>
+          </div>
+        </li>
+      </div>
+    </Link>
   );
 };
+    
 
 export default Home;

@@ -4,10 +4,9 @@ import {
   CheckSquare,
   Flag,
   Home,
-  SquareStack,
   Users,
-  LifeBuoy,
   Cog,
+  PhoneCall,
   Search,
   Menu,
 } from 'lucide-react'
@@ -51,11 +50,12 @@ export function Sidebar() {
 
         <nav className="space-y-0.5">
           <NavItem title="Home" icon={Home} />
-          <NavItem title="Dashboard" icon={BarChart} />
-          <NavItem title="Projects" icon={SquareStack} />
+          <NavItem title="Data" icon={BarChart} />
           <NavItem title="Tasks" icon={CheckSquare} />
           <NavItem title="Reporting" icon={Flag} />
-          <NavItem title="Users" icon={Users} />
+          <NavItem title="Users" icon={Users} />          
+          <NavItem title="Contact" icon={PhoneCall} />
+          <NavItem title="Profile" icon={Cog} />
         </nav>
       </Collapsible.Content>
     </Collapsible.Root>
