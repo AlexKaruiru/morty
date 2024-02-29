@@ -1,19 +1,12 @@
 'use client'
 import {
-  BarChart,
-  CheckSquare,
-  Flag,
   Home,
-  Users,
-  Cog,
-  PhoneCall,
-  Search,
   Menu,
 } from 'lucide-react'
+import Link from 'next/link';
 
 import { NavItem } from './NavItem'
 import { Logo } from './Logo'
-import * as Input from '../Input'
 import * as Collapsible from '@radix-ui/react-collapsible'
 import { Button } from '../Button'
 import { twMerge } from 'tailwind-merge'
@@ -41,21 +34,11 @@ export function Sidebar() {
         forceMount
         className="flex flex-1 animate-slideDownAndFade flex-col gap-6 data-[state=closed]:hidden lg:data-[state=closed]:flex"
       >
-        {/* <Input.Root>
-          <Input.Prefix>
-            <Search className="h-5 w-5 text-zinc-500" />
-          </Input.Prefix>
-          <Input.Control placeholder="Search" />
-        </Input.Root> */}
 
         <nav className="space-y-0.5">
+        <Link href="/">
           <NavItem title="Home" icon={Home} />
-          {/* <NavItem title="Data" icon={BarChart} />
-          <NavItem title="Tasks" icon={CheckSquare} />
-          <NavItem title="Reporting" icon={Flag} />
-          <NavItem title="Users" icon={Users} />          
-          <NavItem title="Contact" icon={PhoneCall} />
-          <NavItem title="Profile" icon={Cog} /> */}
+        </Link>
         </nav>
       </Collapsible.Content>
     </Collapsible.Root>
