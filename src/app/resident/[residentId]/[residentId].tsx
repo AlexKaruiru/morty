@@ -59,11 +59,15 @@ const ResidentDetails: React.FC<ResidentDetailsProps> = ({ residentId }) => {
   useEffect(() => {
     fetchResident(residentId);
     loadNotes(residentId);
+    console.log("resident id on receiving",residentId)
   }, [residentId]);
 
   const fetchResident = async (id: string) => {
+    console.log("id before the API CALL",id)
     try {
       const response = await fetch(`https://rickandmortyapi.com/api/character/${id}`);
+
+
       const data = await response.json();
       setResident(data);
     } catch (error) {

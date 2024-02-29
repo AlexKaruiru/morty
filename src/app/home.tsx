@@ -25,15 +25,35 @@ const Home: React.FC = () => {
     fetchLocations();
   }, []);
 
+  // const fetchLocations = async () => {
+  //   try {
+  //     const response = await fetch('https://rickandmortyapi.com/api/location');
+  //     const data = await response.json();
+  //     setLocations(data.results);
+  //     console.error('confirming id existence',data.results);
+
+  //   } catch (error) {
+  //     console.error('Error fetching locations:', error);
+  //   }
+  // };
+
+
   const fetchLocations = async () => {
-    try {
-      const response = await fetch('https://rickandmortyapi.com/api/location');
-      const data = await response.json();
-      setLocations(data.results);
-    } catch (error) {
-      console.error('Error fetching locations:', error);
-    }
-  };
+  try {
+    const response = await fetch('https://rickandmortyapi.com/api/location');
+    const data = await response.json();
+    // Ensure each location object has an id property
+    const locationsWithId: Location[] = data.results.map((location: Location, index: number) => ({
+      ...location,
+      id: location.id, 
+    }));
+    console.log("confirming id existence",locationsWithId);
+    setLocations(locationsWithId);
+  } catch (error) {
+    console.error('Error fetching locations:', error);
+  }
+};
+
 
   const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
@@ -117,6 +137,7 @@ const Resident: React.FC<ResidentProps> = ({ residentUrl }) => {
         const response = await fetch(residentUrl);
         const data = await response.json();
         const residentId = data.id;
+        console.log("still confirming id existence",residentId);
         setResident({ ...data, id: residentId }); 
       } catch (error) {
         console.error('Error fetching resident:', error);
