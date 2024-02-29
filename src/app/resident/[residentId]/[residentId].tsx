@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { readNotes, writeNotes } from '../../../utils/notes';
+import { MyTabs } from '@/components/Tabs';
 
 interface AddNoteFormProps {
   onAddNote: (newNote: string) => Promise<void>;
@@ -26,7 +27,7 @@ const AddNoteForm: React.FC<AddNoteFormProps> = ({ onAddNote }) => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="mb-4">
-        <label htmlFor="note" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="note" className="block text-lg font-semibold text-gray-700">
           Add Note
         </label>
         <textarea
@@ -40,7 +41,7 @@ const AddNoteForm: React.FC<AddNoteFormProps> = ({ onAddNote }) => {
       </div>
       <button
         type="submit"
-        className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+        className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 focus:outline-none focus:bg-purple-600"
       >
         Submit
       </button>
@@ -55,19 +56,15 @@ interface ResidentDetailsProps {
 const ResidentDetails: React.FC<ResidentDetailsProps> = ({ residentId }) => {
   const [resident, setResident] = useState<any>(null);
   const [notes, setNotes] = useState<string[]>([]);
-  
+
   useEffect(() => {
     fetchResident(residentId);
     loadNotes(residentId);
-    console.log("resident id on receiving",residentId)
   }, [residentId]);
 
   const fetchResident = async (id: string) => {
-    console.log("id before the API CALL",id)
     try {
       const response = await fetch(`https://rickandmortyapi.com/api/character/${id}`);
-
-
       const data = await response.json();
       setResident(data);
     } catch (error) {
@@ -96,17 +93,26 @@ const ResidentDetails: React.FC<ResidentDetailsProps> = ({ residentId }) => {
 
   return (
     <div>
+      <h1 className="text-3xl font-bold text-center my-8">Rick and Morty</h1>
+      <MyTabs />
       {resident && (
-        <div>
-          <h1>{resident.name}</h1>
-          <img src={resident.image} alt={resident.name} />
-          <p>Status: {resident.status}</p>
+        <div className="p-2 border rounded-md mb-8 mt-8">
+          <div className="p-2 border rounded-md mb-8 mt-8">
+            <h1> Name {resident.name}</h1>
+            <img src={resident.image} alt={resident.name} />
+            <p>Status: {resident.status}</p>
+          </div>
           {/* Add the form for adding notes here */}
           <AddNoteForm onAddNote={handleAddNote} />
           {/* Display existing notes */}
-          {notes.map((note, index) => (
-            <div key={index}>{note}</div>
-          ))}
+          <div className="mt-4">
+            <h2 className="text-lg font-semibold mb-2">Notes</h2>
+            {notes.map((note, index) => (
+              <div key={index} className="bg-gray-100 p-4 rounded-lg shadow-md mb-2 max-w-[300px]">
+                <p>{note}</p>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>
