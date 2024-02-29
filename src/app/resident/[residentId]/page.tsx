@@ -25,9 +25,9 @@ interface ResidentPageProps {
 }
 
 class ResidentPage extends React.Component<ResidentPageProps> {
-  static async getInitialProps({ query }: NextPageContext) {
+  static async getServerSideProps({ query }: NextPageContext) {
     const { residentId } = query;
-
+console.log("log at our prop",residentId)
     return {
       residentId: typeof residentId === 'string' ? residentId : '',
     };

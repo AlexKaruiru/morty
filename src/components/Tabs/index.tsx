@@ -18,7 +18,7 @@ export function MyTabs() {
               title="Locations"
               isSelected={currentTab === 'tab1'}
             />
-            <TabItem
+            {/* <TabItem
               value="tab2"
               title="Characters"
               isSelected={currentTab === 'tab2'}
@@ -27,7 +27,7 @@ export function MyTabs() {
               value="tab3"
               title="Episodes"
               isSelected={currentTab === 'tab3'}
-            />            
+            />             */}
           </Tabs.List>
         </ScrollArea.Viewport>
 
